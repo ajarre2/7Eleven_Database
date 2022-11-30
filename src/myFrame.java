@@ -24,9 +24,6 @@ public class myFrame extends javax.swing.JFrame {
     
     public String InputValidation(String word){
         
-        if (word.contains('s')){
-            
-        }
         
         return word;
     }
@@ -80,7 +77,7 @@ public class myFrame extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("SELECT * FROM egray14db.Address");
+        jTextArea1.setText("Gatorade");
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Search");
@@ -92,7 +89,7 @@ public class myFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Results...");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Food", "Drink", "Gas", "Other" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Product Name", "SerialNumber", "Vendor ID" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,15 +128,14 @@ public class myFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        System.out.println(jComboBox1.getSelectedItem().toString());
         try{
             Statement stmt = con.createStatement();
             
-//            int num = stmt.executeUpdate(jButton1.getText());//
-//            System.out.println(num);
+            String category = jComboBox1.getSelectedItem().toString();
+            String query = "SELECT * FROM inventory WHERE " + category + " = " + jTextArea1.getText();
             
-            System.out.println(jTextArea1.getText());
-            ResultSet rs = stmt.executeQuery(jTextArea1.getText());
-            System.out.println(rs.toString());
+            ResultSet rs = stmt.executeQuery(query);
             
             var rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
