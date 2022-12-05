@@ -4,6 +4,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -77,6 +78,7 @@ public class myFrame extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.Jbutton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,6 +129,18 @@ public class myFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Input New Inventory Item");
+        jButton2.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                    jButton2ActionPerformed(evt);
+                }    
+            }); 
+
+            jButton3.setText("Delete Inventory Item");
+        jButton3.addActionListener(new java.awt.event.ActionListener(){
+            public void actionPerformed(java.awt.event.ActionEvent evt){
+                    jButton3ActionPerformed(evt);
+                }    
+            });  
 
         jLabel3.setText("Adding New Products To Inventory");
 
@@ -185,7 +199,7 @@ public class myFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents                       
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
@@ -219,7 +233,66 @@ public class myFrame extends javax.swing.JFrame {
             jLabel2.setText(e.toString());
         }
         
-    }                                        
+    }
+    
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt){
+        try{
+            Scanner scanner = new Scanner(System.in);
+            Statement stmt = con.createStatement();
+           // String category = jComboBox1.getSelectedItem().toString();
+            String productName = scanner.next();
+            String price = scanner.next();
+            double VendorId = scanner.nextDouble();
+            scanner.close();
+            String query = "INSERT INTO "+ this.dbName+ ".Inventory "+"(ProductName, price, VendorID)"+ "VALUES ("+productName+", "+price+"," + VendorId +");";
+            int rs = stmt.executeUpdate(query);
+
+            if (rs > 0)
+            System.out.println("successfully inserted");
+
+        else
+            System.out.println(
+                "unsucessful insertion ");
+
+        }
+        
+
+        catch(SQLException e){
+            System.out.println(e);
+            jLabel2.setText(e.toString());
+        } 
+
+    }
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt){
+        try{
+            Scanner scanner = new Scanner(System.in);
+            Statement stmt = con.createStatement();
+           // String category = jComboBox1.getSelectedItem().toString();
+            String productName = scanner.next();
+            scanner.close();
+            String query =  "DELETE FROM "+this.dbName +".Inventory" + "WHERE ProductName ="+productName;
+                           
+            int rs = stmt.executeUpdate(query);
+
+            if (rs > 0)
+            System.out.println("successfully deleted "+productName+" from inventory");
+
+        else
+            System.out.println(
+                "unsucessful deletion");
+
+        }
+        
+
+        catch(SQLException e){
+            System.out.println(e);
+            jLabel2.setText(e.toString());
+        } 
+
+    }
+
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
@@ -272,7 +345,8 @@ public class myFrame extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify                     
+    // <editor-fold defaultstate="collapsed" desc=" Variables declaration - do not modify ">
+// Variables declaration - do not modify                                         
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -285,5 +359,6 @@ public class myFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    // End of variables declaration                   
+    // End of variables declaration
+    //</editor-fold>
 }
